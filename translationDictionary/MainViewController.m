@@ -38,6 +38,9 @@
     NSLog(@"%@",
           [[Localization sharedLocalization] localizedString:@"%@ saved %@'s %@ tips that he left yesterday to his list" formatters:[NSArray arrayWithObjects:actorII, actorII, [NSNumber numberWithInt:14], nil]]
           );
+    
+    NSLog(@"%@",
+          [[Localization sharedLocalization] localizedString:@"%@ says he's tired" formatters:[NSArray arrayWithObjects:actorII, nil]]);
 	// Do any additional setup after loading the view.
 }
 

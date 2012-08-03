@@ -41,14 +41,13 @@
 }
 
 - (NSString *)localizedStringForKey:(NSString *)string withFormatters:(NSArray *)formatters {
-    NSDictionary *stringData = [self.localizedStrings objectForKey:string];
-    NSString *returnString = string;
+    id stringData = [self.localizedStrings objectForKey:string];
     
     if (stringData != nil) {
-        returnString = [self stringInDict:stringData withFormatters:formatters];
-             
+        if ([stringData isKindOfClass:[NSString class]]) return stringData;
+        if ([stringData isKindOfClass:[NSDictionary class]]) return [self stringInDict:stringData withFormatters:formatters];
     }
-    return returnString;
+    return string;
 }
 
 - (NSString *)stringInDict:(id)stringObj withFormatters:(NSArray *)formatters {
