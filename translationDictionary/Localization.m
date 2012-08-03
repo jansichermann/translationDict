@@ -57,24 +57,37 @@
         if ([stringObj isKindOfClass:[NSString class]]) break;
         // check that formatters has object index
         
-        int formatterKey = 0;
-        if (d < formatters.count) {
-            id formatter = [formatters objectAtIndex:d];
-            
-            if ([formatter isKindOfClass:[NSNumber class]]) {
-                formatterKey = [self formatterKeyForNumber:formatter];
-            }
-            else if ([formatter conformsToProtocol:@protocol(GenderProtocol)]) {
-                formatterKey = [(id<GenderProtocol>) formatter gender];
-            }
-        }
-        
+        int formatterKey = [self formatterKeyForFormatters:formatters atIndex:d];
+                
         NSString *genderKey = [NSString stringWithFormat:@"%d", formatterKey];
-        stringObj = [stringObj objectForKey:genderKey];
+        
+        // we try to use the key, if it doesn't exist, we grab the fallback = 0
+        id nestedStringObj = [stringObj objectForKey:genderKey] ? [stringObj objectForKey:genderKey] : [stringObj objectForKey:0];
+
+        if (nestedStringObj == nil) {
+            // if even the fallback fails, we just grab whatever is there
+            nestedStringObj = [stringObj objectForKey:[[stringObj allKeys] lastObject]];
+        }
+        stringObj = nestedStringObj;
         
         d++;
     }
     return stringObj;
+}
+
+- (int)formatterKeyForFormatters:(NSArray *)formatters atIndex:(int)d {
+    int formatterKey = 0;
+    if (d < formatters.count) {
+        id formatter = [formatters objectAtIndex:d];
+        
+        if ([formatter isKindOfClass:[NSNumber class]]) {
+            formatterKey = [self formatterKeyForNumber:formatter];
+        }
+        else if ([formatter conformsToProtocol:@protocol(GenderProtocol)]) {
+            formatterKey = [(id<GenderProtocol>) formatter gender];
+        }
+    }
+    return formatterKey;
 }
 
 - (int)formatterKeyForNumber:(NSNumber *)number {
