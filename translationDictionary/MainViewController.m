@@ -19,6 +19,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
     Actor *actorI = [Actor new];
     actorI.name = @"Tom";
     actorI.gender = genderMale;
