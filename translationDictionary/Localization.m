@@ -10,6 +10,7 @@
 
 @interface Localization ()
 @property (nonatomic) NSDictionary *localizedStrings;
+@property (nonatomic) NSArray *stringFormatters;
 @end
 
 @implementation Localization
@@ -39,6 +40,10 @@
     
     return string;
 }
+
+
+
+
 
 - (NSString *)localizedStringForKey:(NSString *)string withFormatters:(NSArray *)formatters {
     id stringData = [self.localizedStrings objectForKey:string];
@@ -97,39 +102,58 @@
 }
 
 - (NSString *)replace:(NSString *)string withFormatters:(NSArray *)formatters {
-    for (int i = 0; i < formatters.count; i++) {
-        NSString *formatter = [formatters objectAtIndex:i];
-        NSString *searchString = [self searchString:i];
-        
+    int d = 0;
+    for (NSString *stringFormatter in self.stringFormatters) {
+        NSString *formatter = [formatters objectAtIndex:d];
+        NSString *searchString = [self searchString:d forKey:stringFormatter];
         NSRange stringRange;
         
         stringRange.location = 0;
         stringRange.length = string.length;
         string = [string stringByReplacingOccurrencesOfString:searchString withString:formatter.description options:NSLiteralSearch range:stringRange];
+
+        d++;
     }
     return string;
 }
 
-- (NSString *)searchString:(int)position {
+
+- (NSString *)searchString:(int)position forKey:(NSString *)key {
+    NSString *searchString = [NSString stringWithFormat:@"{%@%d}", key, position+1];
+    /*
     NSString *searchString = @"%";
     searchString = [searchString stringByAppendingFormat:@"%d", position+1];
     searchString = [searchString stringByAppendingString:@"$@"];
+     */
     return searchString;
 }
 
 - (NSString *)replacePlainFormattersWithNumbered:(NSString *)string {
-    int d = 0;
-    NSRange formatterRange;
-    while (true) {
-        formatterRange = [string rangeOfString:@"%@" options:NSLiteralSearch];
+    
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\{[\\^#]\\}" options:NSRegularExpressionCaseInsensitive error:&error];
+    __block int d = 0;
+    __block NSString *returnString = string;
+
+    __block NSMutableArray *mutableStringFormatters = [NSMutableArray array];
+    
+    [regex enumerateMatchesInString:string options:0 range:NSMakeRange(0,string.length) usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop) {
+
+        NSString *formatter = [string substringWithRange:NSMakeRange(match.range.location+1, 1)];
+        [mutableStringFormatters addObject:formatter];
         
-        if (formatterRange.location == NSNotFound) break;
+        NSString *searchString = [self searchString:d forKey:formatter];
+
+        NSRange matchRange;
+        matchRange.location = match.range.location + d;
+        matchRange.length = 3;
         
-        NSString *searchString = [self searchString:d];
-        string = [string stringByReplacingCharactersInRange:formatterRange withString:searchString];
+        returnString = [returnString stringByReplacingCharactersInRange:matchRange withString:searchString];
         d++;
-    }
-    return string;
+    }];
+    self.stringFormatters = [NSArray arrayWithArray:mutableStringFormatters];
+    
+    return returnString;
 }
 
 @end

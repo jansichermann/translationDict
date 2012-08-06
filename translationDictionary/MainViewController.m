@@ -28,20 +28,9 @@
     actorII.gender = genderFemale;
     
     NSLog(@"%@",
-          [[Localization sharedLocalization] localizedString:@"%@ saved %@'s %@ tips that he left yesterday to his list" formatters:[NSArray arrayWithObjects:actorI, actorII, [NSNumber numberWithInt:14], nil]]
+          [[Localization sharedLocalization] localizedString:@"{^} saved {^}'s {#} tips that he left yesterday to his list" formatters:[NSArray arrayWithObjects:actorI, actorII, [NSNumber numberWithInt:12], nil]]
       );
 
-    NSLog(@"%@",
-          [[Localization sharedLocalization] localizedString:@"%@ saved %@'s %@ tips that he left yesterday to his list" formatters:[NSArray arrayWithObjects:actorI, actorI, [NSNumber numberWithInt:1], nil]]
-          );
-    
-    NSLog(@"%@",
-          [[Localization sharedLocalization] localizedString:@"%@ saved %@'s %@ tips that he left yesterday to his list" formatters:[NSArray arrayWithObjects:actorII, actorII, [NSNumber numberWithInt:14], nil]]
-          );
-    
-    NSLog(@"%@",
-          [[Localization sharedLocalization] localizedString:@"%@ says he's tired" formatters:[NSArray arrayWithObjects:actorII, nil]]);
-	// Do any additional setup after loading the view.
 }
 
 @end
