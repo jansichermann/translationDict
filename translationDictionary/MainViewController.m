@@ -28,7 +28,7 @@
     actorII.gender = genderFemale;
     
     NSLog(@"%@",
-          [[Localization sharedLocalization] localizedString:@"{^} saved {^}'s {#} tips that he left yesterday to his list" formatters:[NSArray arrayWithObjects:actorI, actorII, [NSNumber numberWithInt:12], nil]]
+          [[Localization sharedLocalization] localizedString:@"{^} saved {^}'s {#} tips that he left yesterday to his list" formatters:[NSArray arrayWithObjects:actorI, actorII, [NSNumber numberWithInt:1], nil]]
       );
 
 }

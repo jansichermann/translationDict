@@ -32,13 +32,19 @@
 }
 
 - (NSString *)localizedString:(NSString *)string formatters:(NSArray *)formatters {
-    string = [self replacePlainFormattersWithNumbered:string];
-    
-    string = [self localizedStringForKey:string withFormatters:formatters];
-    
-    string = [self replace:string withFormatters:formatters];
-    
-    return string;
+    @try {
+        string = [self replacePlainFormattersWithNumbered:string];
+        
+        string = [self localizedStringForKey:string withFormatters:formatters];
+        
+        string = [self replace:string withFormatters:formatters];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"exception: %@", exception);
+    }
+    @finally {
+        return string;
+    }
 }
 
 
@@ -81,13 +87,13 @@
 
 - (int)formatterKeyForFormatters:(NSArray *)formatters atIndex:(int)d {
     int formatterKey = 0;
-    if (d < formatters.count) {
+    if (d < formatters.count && d < self.stringFormatters.count) {
         id formatter = [formatters objectAtIndex:d];
-        
-        if ([formatter isKindOfClass:[NSNumber class]]) {
+        NSString *formatterKeyString = [self.stringFormatters objectAtIndex:d];
+        if ([formatterKeyString isEqualToString:@"#"] && [formatter isKindOfClass:[NSNumber class]]) {
             formatterKey = [self formatterKeyForNumber:formatter];
         }
-        else if ([formatter conformsToProtocol:@protocol(GenderProtocol)]) {
+        else if ([formatterKeyString isEqualToString:@"^"] && [formatter conformsToProtocol:@protocol(GenderProtocol)]) {
             formatterKey = [(id<GenderProtocol>) formatter gender];
         }
     }
@@ -120,11 +126,6 @@
 
 - (NSString *)searchString:(int)position forKey:(NSString *)key {
     NSString *searchString = [NSString stringWithFormat:@"{%@%d}", key, position+1];
-    /*
-    NSString *searchString = @"%";
-    searchString = [searchString stringByAppendingFormat:@"%d", position+1];
-    searchString = [searchString stringByAppendingString:@"$@"];
-     */
     return searchString;
 }
 
@@ -132,6 +133,7 @@
     
     NSError *error = nil;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\{[\\^#]\\}" options:NSRegularExpressionCaseInsensitive error:&error];
+    
     __block int d = 0;
     __block NSString *returnString = string;
 

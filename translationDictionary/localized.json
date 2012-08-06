@@ -6,7 +6,7 @@
                 "1": "{^1} saved {^2}'s {#3} tips that he left yesterday to his list"
             },
             "1": {
-                "0": "{^2}'s tip was saved by {^1} to his list",
+                "0": "Jane: {^2} Tom: {^1} number:{#3}",
                 "1": "{^1} saved {#3} tips."
             }
         },
