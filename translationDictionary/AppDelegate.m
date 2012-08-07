@@ -8,14 +8,19 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
+#import "PerfTestViewController.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    MainViewController *mvc = [[MainViewController alloc] init];
-    self.window.rootViewController = mvc;
+//    MainViewController *mvc = [[MainViewController alloc] init];
+//    self.window.rootViewController = mvc;
+
+    PerfTestViewController *perfTestVC = [[PerfTestViewController alloc] init];
+    self.window.rootViewController = perfTestVC;
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;

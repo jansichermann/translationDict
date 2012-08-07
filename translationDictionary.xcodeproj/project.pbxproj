@@ -17,6 +17,10 @@
 		3D7F0F4515CC0F8D0026D3E1 /* Localization.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7F0F4415CC0F8D0026D3E1 /* Localization.m */; };
 		3D7F0F4B15CC5AAE0026D3E1 /* localized.json in Resources */ = {isa = PBXBuildFile; fileRef = 3D7F0F4A15CC5AAE0026D3E1 /* localized.json */; };
 		3D7F0F4F15CC5DD50026D3E1 /* Actor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7F0F4E15CC5DD50026D3E1 /* Actor.m */; };
+		3DDDC5A715D1604500B0EDD3 /* PerformanceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DDDC5A615D1604500B0EDD3 /* PerformanceTest.m */; };
+		3DDDC5AA15D162D300B0EDD3 /* PerfTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DDDC5A915D162D300B0EDD3 /* PerfTestViewController.m */; };
+		3DDDC5AD15D1687100B0EDD3 /* testArray.json in Resources */ = {isa = PBXBuildFile; fileRef = 3DDDC5AB15D1687100B0EDD3 /* testArray.json */; };
+		3DDDC5AE15D1687100B0EDD3 /* testDict.json in Resources */ = {isa = PBXBuildFile; fileRef = 3DDDC5AC15D1687100B0EDD3 /* testDict.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +41,12 @@
 		3D7F0F4A15CC5AAE0026D3E1 /* localized.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = localized.json; sourceTree = "<group>"; };
 		3D7F0F4D15CC5DD50026D3E1 /* Actor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Actor.h; sourceTree = "<group>"; };
 		3D7F0F4E15CC5DD50026D3E1 /* Actor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Actor.m; sourceTree = "<group>"; };
+		3DDDC5A515D1604500B0EDD3 /* PerformanceTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerformanceTest.h; sourceTree = "<group>"; };
+		3DDDC5A615D1604500B0EDD3 /* PerformanceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerformanceTest.m; sourceTree = "<group>"; };
+		3DDDC5A815D162D300B0EDD3 /* PerfTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerfTestViewController.h; sourceTree = "<group>"; };
+		3DDDC5A915D162D300B0EDD3 /* PerfTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerfTestViewController.m; sourceTree = "<group>"; };
+		3DDDC5AB15D1687100B0EDD3 /* testArray.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testArray.json; sourceTree = "<group>"; };
+		3DDDC5AC15D1687100B0EDD3 /* testDict.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = testDict.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +93,8 @@
 		3D7F0F2C15CC0F320026D3E1 /* translationDictionary */ = {
 			isa = PBXGroup;
 			children = (
+				3DDDC5AB15D1687100B0EDD3 /* testArray.json */,
+				3DDDC5AC15D1687100B0EDD3 /* testDict.json */,
 				3D7F0F4A15CC5AAE0026D3E1 /* localized.json */,
 				3D7F0F3515CC0F330026D3E1 /* AppDelegate.h */,
 				3D7F0F3615CC0F330026D3E1 /* AppDelegate.m */,
@@ -93,6 +105,10 @@
 				3D7F0F4415CC0F8D0026D3E1 /* Localization.m */,
 				3D7F0F4D15CC5DD50026D3E1 /* Actor.h */,
 				3D7F0F4E15CC5DD50026D3E1 /* Actor.m */,
+				3DDDC5A515D1604500B0EDD3 /* PerformanceTest.h */,
+				3DDDC5A615D1604500B0EDD3 /* PerformanceTest.m */,
+				3DDDC5A815D162D300B0EDD3 /* PerfTestViewController.h */,
+				3DDDC5A915D162D300B0EDD3 /* PerfTestViewController.m */,
 			);
 			path = translationDictionary;
 			sourceTree = "<group>";
@@ -161,6 +177,8 @@
 			files = (
 				3D7F0F3115CC0F320026D3E1 /* InfoPlist.strings in Resources */,
 				3D7F0F4B15CC5AAE0026D3E1 /* localized.json in Resources */,
+				3DDDC5AD15D1687100B0EDD3 /* testArray.json in Resources */,
+				3DDDC5AE15D1687100B0EDD3 /* testDict.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,6 +194,8 @@
 				3D7F0F4215CC0F5C0026D3E1 /* MainViewController.m in Sources */,
 				3D7F0F4515CC0F8D0026D3E1 /* Localization.m in Sources */,
 				3D7F0F4F15CC5DD50026D3E1 /* Actor.m in Sources */,
+				3DDDC5A715D1604500B0EDD3 /* PerformanceTest.m in Sources */,
+				3DDDC5AA15D162D300B0EDD3 /* PerfTestViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
