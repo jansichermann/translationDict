@@ -5,9 +5,9 @@ import pprint
 import json
 import math
 
-variants = 7
-numStrings = 1000
-formatters = 3
+variants = 4
+numStrings = 800
+verbose = False
 
 def generateRandomStringWithFormatters(numFormatters):
 	"""generates a random string with the given number of formatters"""
@@ -44,11 +44,24 @@ def generateDict(string, numLevels):
 
 
 
+def generateNestedArray(string, numLevels):
+	"""returns a nested array"""
+
+	if (numLevels < 1):
+		return string
+	numLevels -= 1
+	returnDict = []
+	for d in range(variants):
+		returnDict.append(generateDict(string, numLevels))
+	
+	return returnDict
+
+
 def generateArray(string, numLevels):
 	"""returns a dict with a flat array of variants"""
 
 	returnArray = []
-	for d in range(int(math.pow(7, numLevels))):
+	for d in range(int(math.pow(variants, numLevels))):
 		returnArray.append(string)
 	return returnArray
 
@@ -58,12 +71,20 @@ def generateArray(string, numLevels):
 if __name__ == '__main__':
 	dictData = {}
 	arrayData = {}
+	nestedArrayData = {}
+
 	for n in range(numStrings):
-		stringData = generateRandomStringWithFormatters(formatters)
+		randomFormatter = random.choice(range(0,4))
+		stringData = generateRandomStringWithFormatters(randomFormatter)
 		dictData[stringData[0]] = generateDict(stringData[0], stringData[1])
 		arrayData[stringData[0]] = generateArray(stringData[0], stringData[1])
-	
-	# pp = pprint.PrettyPrinter(indent=4)
+		nestedArrayData[stringData[0]] = generateNestedArray(stringData[0], stringData[1])
+
+	if (verbose):
+		pp = pprint.PrettyPrinter(indent=4)
+		pp.pprint(dictData)
+
+		pp.pprint(arrayData)
 
 	fh = open('testDict.json', 'w')
 	fh.write(json.dumps(dictData))
@@ -71,4 +92,8 @@ if __name__ == '__main__':
 
 	fh = open('testArray.json', 'w')
 	fh.write(json.dumps(arrayData))
+	fh.close()
+
+	fh = open('testNestedArray.json', 'w')
+	fh.write(json.dumps(nestedArrayData))
 	fh.close()

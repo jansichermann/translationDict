@@ -19,5 +19,8 @@
 -(void)loadJsonArray;
 -(void)destroyJsonArray;
 
+- (void)loadNestedArray;
+- (void)destroyNestedArray;
+
 - (NSString *)setRandomLookupWord;
 @end

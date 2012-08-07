@@ -60,21 +60,38 @@
     [lookupArrayButton addTarget:self action:@selector(arrayLookup) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:lookupArrayButton];
     
+    
+    UIButton *startNestdArrayLoading = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [startNestdArrayLoading setTitle:@"loadArrayJson" forState:UIControlStateNormal];
+    startNestdArrayLoading.frame = CGRectMake(10, 300, 300, 30);
+    [startNestdArrayLoading addTarget:self action:@selector(startNestedArrayLoading) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:startNestdArrayLoading];
+
+    UIButton *destroyNestedArrayButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [destroyNestedArrayButton setTitle:@"destroy nested array" forState:UIControlStateNormal];
+    destroyNestedArrayButton.frame = CGRectMake(10, 340, 300, 30);
+    [destroyNestedArrayButton addTarget:self action:@selector(destroyNestedArray) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:destroyNestedArrayButton];
+    
+    
+    
 
     UIButton *lookupWordButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [lookupWordButton setTitle:@"random lookupWord" forState:UIControlStateNormal];
-    lookupWordButton.frame = CGRectMake(10, 300, 300, 30);
+    lookupWordButton.frame = CGRectMake(10, 380, 300, 30);
     [lookupWordButton addTarget:self action:@selector(randomLookupWord) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:lookupWordButton];
     
     self.lookupWord = [[UILabel alloc] init];
-    self.lookupWord.frame = CGRectMake(10, 340, 300, 30);
+    self.lookupWord.frame = CGRectMake(10, 400, 300, 30);
     self.lookupWord.adjustsFontSizeToFitWidth = YES;
+    self.lookupWord.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.lookupWord];
     
     
     self.dateLabel = [[UILabel alloc] init];
-    self.dateLabel.frame = CGRectMake(10, 370, 300, 30);
+    self.dateLabel.frame = CGRectMake(10, 420, 300, 30);
+    self.dateLabel.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.dateLabel];
 }
 
@@ -118,6 +135,18 @@
 
 - (void)randomLookupWord {
     self.lookupWord.text = [self.perfTest setRandomLookupWord];
+}
+
+- (void)startNestedArrayLoading {
+    self.startDate = [NSDate date];
+    [self.perfTest loadNestedArray];
+    [self updateDate];
+}
+
+- (void)destroyNestedArray {
+    self.startDate = [NSDate date];
+    [self.perfTest destroyNestedArray];
+    [self updateDate];
 }
 
 @end

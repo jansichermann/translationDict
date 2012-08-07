@@ -12,6 +12,7 @@
 @property (nonatomic) NSDictionary *dictionaryJson;
 @property (nonatomic) NSDictionary *arrayJson;
 @property (nonatomic) NSString *lookupWord;
+@property (nonatomic) NSDictionary *nestedArrayJson;
 @end
 
 @implementation PerformanceTest
@@ -35,7 +36,7 @@
     NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"testDict" ofType:@"json"];
     NSData *data = [NSData dataWithContentsOfFile:dataPath];
     NSError *error = nil;
-    self.dictionaryJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+    self.dictionaryJson = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     
     if (error) NSLog(@"%@", [error localizedDescription]);
 }
@@ -77,7 +78,7 @@
     NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"testArray" ofType:@"json"];
     NSData *data = [NSData dataWithContentsOfFile:dataPath];
     NSError *error = nil;
-    self.arrayJson = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+    self.arrayJson = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
     
     if (error) NSLog(@"%@", [error localizedDescription]);
 }
@@ -86,5 +87,21 @@
 -(void)destroyJsonArray {
     self.arrayJson = nil;
 }
+
+
+
+- (void)loadNestedArray {
+    NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"testNestedArray" ofType:@"json"];
+    NSData *data = [NSData dataWithContentsOfFile:dataPath];
+    NSError *error = nil;
+    self.nestedArrayJson = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    
+    if (error) NSLog(@"%@", [error localizedDescription]);\
+}
+
+- (void)destroyNestedArray {
+    self.nestedArrayJson = nil;
+}
+
 
 @end
