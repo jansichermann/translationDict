@@ -26,10 +26,12 @@
     return localization;
 }
 
+
 - (void)loadData {
     NSData *localizedData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"localized" ofType:@"json"]];
     self.localizedStrings = [NSJSONSerialization JSONObjectWithData:localizedData options:NSJSONReadingMutableLeaves error:nil];
 }
+
 
 - (NSString *)localizedString:(NSString *)string formatters:(NSArray *)formatters {
     @try {
@@ -48,9 +50,6 @@
 }
 
 
-
-
-
 - (NSString *)localizedStringForKey:(NSString *)string withFormatters:(NSArray *)formatters {
     id stringData = [self.localizedStrings objectForKey:string];
     
@@ -60,6 +59,7 @@
     }
     return string;
 }
+
 
 - (NSString *)stringInDict:(id)stringObj withFormatters:(NSArray *)formatters {
     int d = 0;
@@ -85,6 +85,7 @@
     return stringObj;
 }
 
+
 - (int)formatterKeyForFormatters:(NSArray *)formatters atIndex:(int)d {
     int formatterKey = 0;
     if (d < formatters.count && d < self.stringFormatters.count) {
@@ -100,12 +101,14 @@
     return formatterKey;
 }
 
+
 - (int)formatterKeyForNumber:(NSNumber *)number {
     switch ([number intValue]) {
         case 1:     return 0;
         default:    return 1;
     }
 }
+
 
 - (NSString *)replace:(NSString *)string withFormatters:(NSArray *)formatters {
     int d = 0;
@@ -128,6 +131,7 @@
     NSString *searchString = [NSString stringWithFormat:@"{%@%d}", key, position+1];
     return searchString;
 }
+
 
 - (NSString *)replacePlainFormattersWithNumbered:(NSString *)string {
     
@@ -156,6 +160,11 @@
     self.stringFormatters = [NSArray arrayWithArray:mutableStringFormatters];
     
     return returnString;
+}
+
+
+- (void)requestString:(NSString *) string forProject:(NSString *)projectId {
+    
 }
 
 @end

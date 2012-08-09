@@ -6,14 +6,17 @@
 //  Copyright (c) 2012 foursquare. All rights reserved.
 //
 
+
 #import "PerformanceTest.h"
 
+
 @interface PerformanceTest ()
-@property (nonatomic) NSDictionary *dictionaryJson;
-@property (nonatomic) NSDictionary *arrayJson;
-@property (nonatomic) NSString *lookupWord;
-@property (nonatomic) NSDictionary *nestedArrayJson;
+@property (nonatomic) NSDictionary  *dictionaryJson;
+@property (nonatomic) NSDictionary  *arrayJson;
+@property (nonatomic) NSString      *lookupWord;
+@property (nonatomic) NSDictionary  *nestedArrayJson;
 @end
+
 
 @implementation PerformanceTest
 
@@ -23,6 +26,7 @@
     return lookupKey;
 }
 
+
 - (NSString *)setRandomLookupWord {
     NSDictionary *lookupDict = self.dictionaryJson ? self.dictionaryJson : self.arrayJson;
     if (lookupDict) {
@@ -31,6 +35,7 @@
     }
     return self.lookupWord;
 }
+
 
 -(void)loadJsonDict {
     NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"testDict" ofType:@"json"];
@@ -46,14 +51,12 @@
     self.dictionaryJson = nil;
 }
 
-
-
-
 - (NSString *)combinationString:(NSDictionary *)dict {
     id combination = [dict objectForKey:@"3"];
     if ([combination isKindOfClass:[NSString class]]) return combination;
     return [self combinationString:combination];
 }
+
 
 - (float)dictLookup {
     if (self.dictionaryJson != nil && self.lookupWord != nil) {
@@ -74,6 +77,7 @@
     return 0;
 }
 
+
 -(void)loadJsonArray {
     NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"testArray" ofType:@"json"];
     NSData *data = [NSData dataWithContentsOfFile:dataPath];
@@ -89,7 +93,6 @@
 }
 
 
-
 - (void)loadNestedArray {
     NSString *dataPath = [[NSBundle mainBundle] pathForResource:@"testNestedArray" ofType:@"json"];
     NSData *data = [NSData dataWithContentsOfFile:dataPath];
@@ -98,6 +101,7 @@
     
     if (error) NSLog(@"%@", [error localizedDescription]);\
 }
+
 
 - (void)destroyNestedArray {
     self.nestedArrayJson = nil;
