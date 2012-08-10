@@ -20,13 +20,13 @@
          shouldBeEnabled = "Yes"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
-         filePath = "translationDictionary/AppDelegate.m"
-         timestampString = "366250758.772117"
+         filePath = "translationDictionary/Localization.m"
+         timestampString = "366260395.388822"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "37"
-         endingLineNumber = "37"
-         landmarkName = "-applicationDidEnterBackground:"
+         startingLineNumber = "239"
+         endingLineNumber = "239"
+         landmarkName = "-addSkipBackupAttributeToItemAtURL:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

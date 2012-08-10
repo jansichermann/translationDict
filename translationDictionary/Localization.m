@@ -33,8 +33,15 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
 
 
 - (void)loadData {
-    NSData *localizedData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"localized" ofType:@"json"]];
-    self.localizedStrings = [NSJSONSerialization JSONObjectWithData:localizedData options:NSJSONReadingMutableLeaves error:nil];
+    NSString *filePath = [self filePathForLanguage:[self phoneLanguage]];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:filePath];
+        self.localizedStrings = dict;
+    }
+    else {
+        NSData *localizedData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"localized" ofType:@"json"]];
+        self.localizedStrings = [NSJSONSerialization JSONObjectWithData:localizedData options:NSJSONReadingMutableLeaves error:nil];
+    }
 }
 
 
@@ -178,11 +185,19 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
 
 - (void)uploadRequests {
     if (self.requestedStrings.count > 0) {
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://108.171.174.170/v1/string/%@/%@", projectId, [[NSLocale preferredLanguages] objectAtIndex:0]]];
+        NSLog(@"requests: %@", self.requestedStrings);
+        NSString *lang = [self phoneLanguage];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://108.171.174.170/v1/strings/%@/%@/addRequests", projectId, lang]];
         
-        NSString *uploadString = [NSString stringWithFormat:@"%@",self.requestedStrings ];
+        NSLog(@"url: %@", url.absoluteString);
+        
+        NSData *data = [NSJSONSerialization dataWithJSONObject:self.requestedStrings options:0 error:nil];
+        NSString *uploadString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        
         NSDictionary *parameters = @{ @"requests" : uploadString };
         __weak Localization *weak_self = self;
+        
+        
         FSNConnection *uploadConnection = [FSNConnection withUrl:url
                                                           method:FSNRequestMethodPOST
                                                          headers:nil
@@ -191,11 +206,48 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
                                                          return [c.responseData dictionaryFromJSONWithError:e];
                                                     }
                                                  completionBlock: ^(FSNConnection *c) {
-                                                     NSLog(@"%@", c.parseResult);
+                                                     if ([c.parseResult isKindOfClass:[NSDictionary class]]) {
+                                                         [weak_self saveTranslationDict:(NSDictionary *)c.parseResult forLang:lang];
+                                                     }
                                                      weak_self.requestedStrings = nil;
                                                  }
                                                    progressBlock:nil];
+        uploadConnection.shouldRunInBackground = YES;
         [uploadConnection start];
     }
+}
+
+- (void)saveTranslationDict:(NSDictionary *)dict forLang:(NSString *)lang{
+    NSDictionary *langDict = [[dict objectForKey:@"objects"] objectForKey:lang];
+    if (langDict != nil) {
+        NSString *filePath = [self filePathForLanguage:lang];
+        [langDict writeToFile:filePath atomically:YES];
+        NSURL *url = [NSURL fileURLWithPath:filePath];
+        [self addSkipBackupAttributeToItemAtURL:url];
+    }
+}
+
+- (NSString *)filePathForLanguage:(NSString *)lang {
+    NSString *docDir = [NSSearchPathForDirectoriesInDomains (NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    return [docDir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.plist", lang]];
+}
+
+- (NSString *)phoneLanguage {
+    return [[NSLocale preferredLanguages] objectAtIndex:0];
+}
+
+- (BOOL)addSkipBackupAttributeToItemAtURL:(NSURL *)URL {
+    if (URL) {
+        assert([[NSFileManager defaultManager] fileExistsAtPath: [URL path]]);
+        
+        NSError *error = nil;
+        BOOL success = [URL setResourceValue: [NSNumber numberWithBool: YES]
+                                      forKey: NSURLIsExcludedFromBackupKey error: &error];
+        if(!success){
+            NSLog(@"Error excluding %@ from backup %@", [URL lastPathComponent], error);
+        }
+        return success;
+    }
+    return FALSE;
 }
 @end
