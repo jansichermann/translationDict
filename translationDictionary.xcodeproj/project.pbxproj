@@ -17,6 +17,9 @@
 		3D7F0F4515CC0F8D0026D3E1 /* Localization.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7F0F4415CC0F8D0026D3E1 /* Localization.m */; };
 		3D7F0F4B15CC5AAE0026D3E1 /* localized.json in Resources */ = {isa = PBXBuildFile; fileRef = 3D7F0F4A15CC5AAE0026D3E1 /* localized.json */; };
 		3D7F0F4F15CC5DD50026D3E1 /* Actor.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D7F0F4E15CC5DD50026D3E1 /* Actor.m */; };
+		3DCF345815D401AD00100986 /* FSN_categories.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF345315D401AD00100986 /* FSN_categories.m */; };
+		3DCF345915D401AD00100986 /* FSNConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF345515D401AD00100986 /* FSNConnection.m */; };
+		3DCF345A15D401AD00100986 /* FSNData.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DCF345715D401AD00100986 /* FSNData.m */; };
 		3DDDC5A715D1604500B0EDD3 /* PerformanceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DDDC5A615D1604500B0EDD3 /* PerformanceTest.m */; };
 		3DDDC5AA15D162D300B0EDD3 /* PerfTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DDDC5A915D162D300B0EDD3 /* PerfTestViewController.m */; };
 		3DDDC5AD15D1687100B0EDD3 /* testArray.json in Resources */ = {isa = PBXBuildFile; fileRef = 3DDDC5AB15D1687100B0EDD3 /* testArray.json */; };
@@ -42,6 +45,12 @@
 		3D7F0F4A15CC5AAE0026D3E1 /* localized.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = localized.json; sourceTree = "<group>"; };
 		3D7F0F4D15CC5DD50026D3E1 /* Actor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Actor.h; sourceTree = "<group>"; };
 		3D7F0F4E15CC5DD50026D3E1 /* Actor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Actor.m; sourceTree = "<group>"; };
+		3DCF345215D401AD00100986 /* FSN_categories.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSN_categories.h; sourceTree = "<group>"; };
+		3DCF345315D401AD00100986 /* FSN_categories.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSN_categories.m; sourceTree = "<group>"; };
+		3DCF345415D401AD00100986 /* FSNConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSNConnection.h; sourceTree = "<group>"; };
+		3DCF345515D401AD00100986 /* FSNConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSNConnection.m; sourceTree = "<group>"; };
+		3DCF345615D401AD00100986 /* FSNData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSNData.h; sourceTree = "<group>"; };
+		3DCF345715D401AD00100986 /* FSNData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSNData.m; sourceTree = "<group>"; };
 		3DDDC5A515D1604500B0EDD3 /* PerformanceTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerformanceTest.h; sourceTree = "<group>"; };
 		3DDDC5A615D1604500B0EDD3 /* PerformanceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerformanceTest.m; sourceTree = "<group>"; };
 		3DDDC5A815D162D300B0EDD3 /* PerfTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerfTestViewController.h; sourceTree = "<group>"; };
@@ -68,6 +77,7 @@
 		3D7F0F1715CC0F320026D3E1 = {
 			isa = PBXGroup;
 			children = (
+				3DCF344F15D401A100100986 /* submodules_source */,
 				3D7F0F2C15CC0F320026D3E1 /* translationDictionary */,
 				3D7F0F2515CC0F320026D3E1 /* Frameworks */,
 				3D7F0F2315CC0F320026D3E1 /* Products */,
@@ -125,6 +135,28 @@
 				3D7F0F3415CC0F320026D3E1 /* translationDictionary-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		3DCF344F15D401A100100986 /* submodules_source */ = {
+			isa = PBXGroup;
+			children = (
+				3DCF345115D401AD00100986 /* src */,
+			);
+			name = submodules_source;
+			sourceTree = "<group>";
+		};
+		3DCF345115D401AD00100986 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				3DCF345215D401AD00100986 /* FSN_categories.h */,
+				3DCF345315D401AD00100986 /* FSN_categories.m */,
+				3DCF345415D401AD00100986 /* FSNConnection.h */,
+				3DCF345515D401AD00100986 /* FSNConnection.m */,
+				3DCF345615D401AD00100986 /* FSNData.h */,
+				3DCF345715D401AD00100986 /* FSNData.m */,
+			);
+			name = src;
+			path = FSNetworking/src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -200,6 +232,9 @@
 				3D7F0F4F15CC5DD50026D3E1 /* Actor.m in Sources */,
 				3DDDC5A715D1604500B0EDD3 /* PerformanceTest.m in Sources */,
 				3DDDC5AA15D162D300B0EDD3 /* PerfTestViewController.m in Sources */,
+				3DCF345815D401AD00100986 /* FSN_categories.m in Sources */,
+				3DCF345915D401AD00100986 /* FSNConnection.m in Sources */,
+				3DCF345A15D401AD00100986 /* FSNData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

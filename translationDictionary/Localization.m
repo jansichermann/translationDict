@@ -7,13 +7,17 @@
 //
 
 #import "Localization.h"
+#import "FSNConnection.h"
 
 @interface Localization ()
 @property (nonatomic) NSDictionary *localizedStrings;
 @property (nonatomic) NSArray *stringFormatters;
+@property (nonatomic) NSMutableDictionary *requestedStrings;
 @end
 
 @implementation Localization
+
+const NSString* const projectId = @"5021c36c08f020242cc01293";
 
 + (id)sharedLocalization {
     static dispatch_once_t pred;
@@ -22,6 +26,7 @@
     dispatch_once(&pred, ^{
         localization = [[self alloc] init];
         [localization loadData];
+        localization.requestedStrings = [NSMutableDictionary dictionary];
     });
     return localization;
 }
@@ -36,6 +41,15 @@
 - (NSString *)localizedString:(NSString *)string formatters:(NSArray *)formatters {
     @try {
         string = [self replacePlainFormattersWithNumbered:string];
+        
+        if ([self.requestedStrings objectForKey:string]) {
+            NSNumber *oldCount = [self.requestedStrings objectForKey:string];
+            int newCount = oldCount.integerValue + 1;
+            [self.requestedStrings setValue:[NSNumber numberWithInt:newCount] forKey:string];
+        }
+        else {
+            [self.requestedStrings setValue:[NSNumber numberWithInt:1] forKey:string];
+        }
         
         string = [self localizedStringForKey:string withFormatters:formatters];
         
@@ -162,9 +176,26 @@
     return returnString;
 }
 
-
-- (void)requestString:(NSString *) string forProject:(NSString *)projectId {
-    
+- (void)uploadRequests {
+    if (self.requestedStrings.count > 0) {
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://108.171.174.170/v1/string/%@/%@", projectId, [[NSLocale preferredLanguages] objectAtIndex:0]]];
+        
+        NSString *uploadString = [NSString stringWithFormat:@"%@",self.requestedStrings ];
+        NSDictionary *parameters = @{ @"requests" : uploadString };
+        __weak Localization *weak_self = self;
+        FSNConnection *uploadConnection = [FSNConnection withUrl:url
+                                                          method:FSNRequestMethodPOST
+                                                         headers:nil
+                                                      parameters:parameters
+                                                      parseBlock:^id(FSNConnection *c, NSError **e) {
+                                                         return [c.responseData dictionaryFromJSONWithError:e];
+                                                    }
+                                                 completionBlock: ^(FSNConnection *c) {
+                                                     NSLog(@"%@", c.parseResult);
+                                                     weak_self.requestedStrings = nil;
+                                                 }
+                                                   progressBlock:nil];
+        [uploadConnection start];
+    }
 }
-
 @end

@@ -22,4 +22,5 @@ typedef enum {
 @interface Localization : NSObject
 + (id)sharedLocalization;
 - (NSString *)localizedString:(NSString *)string formatters:(NSArray *)formatters;
+- (void)uploadRequests;
 @end

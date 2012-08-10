@@ -11,7 +11,7 @@
 #import "Actor.h"
 
 @interface MainViewController ()
-
+@property (nonatomic) UILabel *label;
 @end
 
 @implementation MainViewController
@@ -20,6 +20,10 @@
 {
     [super viewDidLoad];
 
+    self.label = [[UILabel alloc]  initWithFrame:self.view.bounds];
+    [self.view addSubview:self.label];
+    self.label.numberOfLines = 20;
+    
     Actor *actorI = [Actor new];
     actorI.name = @"Tom";
     actorI.gender = genderMale;
@@ -28,9 +32,7 @@
     actorII.name = @"Jane";
     actorII.gender = genderFemale;
     
-    NSLog(@"%@",
-          [[Localization sharedLocalization] localizedString:@"{^} saved {^}'s {#} tips that he left yesterday to his list" formatters:[NSArray arrayWithObjects:actorI, actorII, [NSNumber numberWithInt:1], nil]]
-      );
+    self.label.text = [[Localization sharedLocalization] localizedString:@"{^} saved {^}'s {#} tips that he left yesterday to his list" formatters:[NSArray arrayWithObjects:actorI, actorII, [NSNumber numberWithInt:1], nil]];
 
 }
 

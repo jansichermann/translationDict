@@ -1,0 +1,3 @@
+[submodule "FSNetworking"]
+	path = FSNetworking
+	url = git@github.com:foursquare/FSNetworking.git
