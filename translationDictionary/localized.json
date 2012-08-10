@@ -20,5 +20,8 @@
                 "1": "{^1} saved {^2}'s {#3} tips that he left yesterday to his list"
             }
         }
+    },
+    "{^1} saved a {!tip} and a {!list}": {
+        "0" : "{^1} saved a {!tip=Tipp} and a {!list=List}"
     }
 }

@@ -21,12 +21,25 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "translationDictionary/Localization.m"
-         timestampString = "366260395.388822"
+         timestampString = "366263184.023605"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "239"
-         endingLineNumber = "239"
+         startingLineNumber = "267"
+         endingLineNumber = "267"
          landmarkName = "-addSkipBackupAttributeToItemAtURL:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "Yes"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "translationDictionary/Localization.m"
+         timestampString = "366263498.068112"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "76"
+         endingLineNumber = "76"
+         landmarkName = "-localizedStringForKey:withFormatters:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

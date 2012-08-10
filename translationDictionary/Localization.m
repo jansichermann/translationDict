@@ -49,6 +49,7 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
     @try {
         string = [self replacePlainFormattersWithNumbered:string];
         
+        // string analytics and request
         if ([self.requestedStrings objectForKey:string]) {
             NSNumber *oldCount = [self.requestedStrings objectForKey:string];
             int newCount = oldCount.integerValue + 1;
@@ -57,6 +58,7 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
         else {
             [self.requestedStrings setValue:[NSNumber numberWithInt:1] forKey:string];
         }
+        
         
         string = [self localizedStringForKey:string withFormatters:formatters];
         
@@ -144,6 +146,31 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
 
         d++;
     }
+    
+    // replace literals
+    NSError *error = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\{[!][A-z=]*\\}" options:NSRegularExpressionCaseInsensitive error:&error];
+    
+    NSLog(@"string: %@", string);
+    
+    while (TRUE) {
+        NSTextCheckingResult *match = [regex firstMatchInString:string options:0 range:NSMakeRange(0, string.length)];
+        if (match == nil) break;
+        else {
+            NSRange substringRange = match.range;
+            substringRange.location += 2;
+            substringRange.length -= 3;
+            NSString *substring = [string substringWithRange:substringRange];
+
+            NSRange translationRange = [substring rangeOfString:@"="];
+            if (translationRange.location != NSNotFound) {
+                substring = [substring substringFromIndex:++translationRange.location];
+                NSLog(@"%@", substring);
+            }
+
+            string = [string stringByReplacingCharactersInRange:match.range withString:substring];
+        }
+    }
     return string;
 }
 
@@ -167,6 +194,7 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
     [regex enumerateMatchesInString:string options:0 range:NSMakeRange(0,string.length) usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop) {
 
         NSString *formatter = [string substringWithRange:NSMakeRange(match.range.location+1, 1)];
+        NSLog(@"%@", formatter);
         [mutableStringFormatters addObject:formatter];
         
         NSString *searchString = [self searchString:d forKey:formatter];
