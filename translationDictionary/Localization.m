@@ -151,8 +151,6 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
     NSError *error = nil;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\{[!][A-z=]*\\}" options:NSRegularExpressionCaseInsensitive error:&error];
     
-    NSLog(@"string: %@", string);
-    
     while (TRUE) {
         NSTextCheckingResult *match = [regex firstMatchInString:string options:0 range:NSMakeRange(0, string.length)];
         if (match == nil) break;
@@ -165,7 +163,6 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
             NSRange translationRange = [substring rangeOfString:@"="];
             if (translationRange.location != NSNotFound) {
                 substring = [substring substringFromIndex:++translationRange.location];
-                NSLog(@"%@", substring);
             }
 
             string = [string stringByReplacingCharactersInRange:match.range withString:substring];
@@ -194,7 +191,6 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
     [regex enumerateMatchesInString:string options:0 range:NSMakeRange(0,string.length) usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop) {
 
         NSString *formatter = [string substringWithRange:NSMakeRange(match.range.location+1, 1)];
-        NSLog(@"%@", formatter);
         [mutableStringFormatters addObject:formatter];
         
         NSString *searchString = [self searchString:d forKey:formatter];
@@ -216,8 +212,6 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
         NSLog(@"requests: %@", self.requestedStrings);
         NSString *lang = [self phoneLanguage];
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://108.171.174.170/v1/strings/%@/%@/addRequests", projectId, lang]];
-        
-        NSLog(@"url: %@", url.absoluteString);
         
         NSData *data = [NSJSONSerialization dataWithJSONObject:self.requestedStrings options:0 error:nil];
         NSString *uploadString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
