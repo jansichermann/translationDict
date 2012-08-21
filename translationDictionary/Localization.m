@@ -11,7 +11,6 @@
 
 @interface Localization ()
 @property (nonatomic) NSDictionary *localizedStrings;
-@property (nonatomic) NSArray *stringFormatters;
 @property (nonatomic) NSMutableDictionary *requestedStrings;
 @end
 
@@ -44,11 +43,16 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
     }
 }
 
+- (void)didReceiveMemoryWarning {
+    self.localizedStrings = nil;
+}
+
 // MARK: BASE FUNCTION
 
 - (NSString *)localizedString:(NSString *)string formatters:(NSArray *)formatters {
     @try {
-        string = [self replacePlainFormattersWithNumbered:string];
+        NSArray *placeholders = nil;
+        [self replacePlainFormatters:&placeholders withNumberedinString:&string];
         
         // string analytics and request
         if ([self.requestedStrings objectForKey:string]) {
@@ -61,9 +65,9 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
         }
         
         
-        string = [self localizedStringForKey:string withFormatters:formatters];
+        string = [self localizedStringForKey:string withPlaceholders:placeholders andFormatters:formatters];
         
-        string = [self replace:string withFormatters:formatters];
+        string = [self replacePlaceholders:placeholders inString:string withFormatters:formatters];
     }
     @catch (NSException *exception) {
         NSLog(@"exception: %@", exception);
@@ -78,24 +82,27 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
 
 // MARK: helpers
 
-- (NSString *)localizedStringForKey:(NSString *)string withFormatters:(NSArray *)formatters {
-    id stringData = [self.localizedStrings objectForKey:string];
+- (NSString *)localizedStringForKey:(NSString *)string withPlaceholders:(NSArray *)placeholders andFormatters:(NSArray *)formatters {
     
+    if (self.localizedStrings == nil) [self loadData];
+    
+    id stringData = [self.localizedStrings objectForKey:string];
+
     if (stringData != nil) {
         if ([stringData isKindOfClass:[NSString class]]) return stringData;
-        if ([stringData isKindOfClass:[NSDictionary class]]) return [self stringInDict:stringData withFormatters:formatters];
+        if ([stringData isKindOfClass:[NSDictionary class]]) return [self stringInDict:stringData withPlaceholders:placeholders andFormatters:formatters];
     }
     return string;
 }
 
 
-- (NSString *)stringInDict:(id)stringObj withFormatters:(NSArray *)formatters {
+- (NSString *)stringInDict:(id)stringObj withPlaceholders:(NSArray *)placeholders andFormatters:(NSArray *)formatters {
     int d = 0;
     while (true) {
         if ([stringObj isKindOfClass:[NSString class]]) break;
         // check that formatters has object index
         
-        int formatterKey = [self formatterKeyForFormatters:formatters atIndex:d];
+        int formatterKey = [self formatterKeyForFormatters:formatters andPlaceholders:placeholders atIndex:d];
                 
         NSString *genderKey = [NSString stringWithFormat:@"%d", formatterKey];
         
@@ -114,11 +121,11 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
 }
 
 
-- (int)formatterKeyForFormatters:(NSArray *)formatters atIndex:(int)d {
+- (int)formatterKeyForFormatters:(NSArray *)formatters andPlaceholders:(NSArray *)placeholders atIndex:(int)d {
     int formatterKey = 0;
-    if (d < formatters.count && d < self.stringFormatters.count) {
+    if (d < formatters.count && d < placeholders.count) {
         id formatter = [formatters objectAtIndex:d];
-        NSString *formatterKeyString = [self.stringFormatters objectAtIndex:d];
+        NSString *formatterKeyString = [placeholders objectAtIndex:d];
         if ([formatterKeyString isEqualToString:@"#"] && [formatter isKindOfClass:[NSNumber class]]) {
             formatterKey = [self formatterKeyForNumber:formatter];
         }
@@ -139,9 +146,9 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
 }
 
 
-- (NSString *)replace:(NSString *)string withFormatters:(NSArray *)formatters {
+- (NSString *)replacePlaceholders:(NSArray *)placeholders inString:(NSString *)string withFormatters:(NSArray *)formatters {
     int d = 0;
-    for (NSString *stringFormatter in self.stringFormatters) {
+    for (NSString *stringFormatter in placeholders) {
         NSString *formatter = [formatters objectAtIndex:d];
         NSString *searchString = [self searchString:d forKey:stringFormatter];
         NSRange stringRange;
@@ -184,19 +191,19 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
 }
 
 
-- (NSString *)replacePlainFormattersWithNumbered:(NSString *)string {
+- (void)replacePlainFormatters:(NSArray **)placeholders withNumberedinString:(NSString **)string {
     
     NSError *error = nil;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\{[\\^#]\\}" options:NSRegularExpressionCaseInsensitive error:&error];
     
     __block int d = 0;
-    __block NSString *returnString = string;
+    __block NSString *returnString = *string;
 
     __block NSMutableArray *mutableStringFormatters = [NSMutableArray array];
     
-    [regex enumerateMatchesInString:string options:0 range:NSMakeRange(0,string.length) usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop) {
+    [regex enumerateMatchesInString:*string options:0 range:NSMakeRange(0,[(NSString *)*string length]) usingBlock:^(NSTextCheckingResult *match, NSMatchingFlags flags, BOOL *stop) {
 
-        NSString *formatter = [string substringWithRange:NSMakeRange(match.range.location+1, 1)];
+        NSString *formatter = [*string substringWithRange:NSMakeRange(match.range.location+1, 1)];
         [mutableStringFormatters addObject:formatter];
         
         NSString *searchString = [self searchString:d forKey:formatter];
@@ -208,9 +215,9 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
         returnString = [returnString stringByReplacingCharactersInRange:matchRange withString:searchString];
         d++;
     }];
-    self.stringFormatters = [NSArray arrayWithArray:mutableStringFormatters];
+    *placeholders = [NSArray arrayWithArray:mutableStringFormatters];
     
-    return returnString;
+    *string = returnString;
 }
 
 - (void)uploadRequests {

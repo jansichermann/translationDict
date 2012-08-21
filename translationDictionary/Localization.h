@@ -23,4 +23,5 @@ typedef enum {
 + (id)sharedLocalization;
 - (NSString *)localizedString:(NSString *)string formatters:(NSArray *)formatters;
 - (void)uploadRequests;
+- (void)didReceiveMemoryWarning;
 @end
