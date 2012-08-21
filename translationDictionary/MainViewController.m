@@ -32,7 +32,8 @@
     actorII.name = @"Jane";
     actorII.gender = genderFemale;
 
-    self.label.text = [[Localization sharedLocalization] localizedString:@"{^} saved a {!tip} and a {!list}" formatters:@[ actorI ]];
+//    self.label.text = [[Localization sharedLocalization] localizedString:@"{^} saved a {!tip} and a {!list}" formatters:@[ actorI ]];
+    self.label.text = [[Localization sharedLocalization] localizedString:@"{^} walked his dog {^} who spun around {#} times trying to catch his tail." formatters:@[actorI, actorII, [NSNumber numberWithInt:2]]];
 //    self.label.text = [[Localization sharedLocalization] localizedString:@"{^} saved {^}'s {#} tips that he left yesterday to his list" formatters:[NSArray arrayWithObjects:actorI, actorII, [NSNumber numberWithInt:1], nil]];
     
 

@@ -44,6 +44,7 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
     }
 }
 
+// MARK: BASE FUNCTION
 
 - (NSString *)localizedString:(NSString *)string formatters:(NSArray *)formatters {
     @try {
@@ -72,6 +73,10 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
     }
 }
 
+
+
+
+// MARK: helpers
 
 - (NSString *)localizedStringForKey:(NSString *)string withFormatters:(NSArray *)formatters {
     id stringData = [self.localizedStrings objectForKey:string];
@@ -126,9 +131,10 @@ const NSString* const projectId = @"5021c36c08f020242cc01293";
 
 
 - (int)formatterKeyForNumber:(NSNumber *)number {
+    // ENGLISH
     switch ([number intValue]) {
-        case 1:     return 0;
-        default:    return 1;
+        case 1:     return 1;
+        default:    return 0;
     }
 }
 
